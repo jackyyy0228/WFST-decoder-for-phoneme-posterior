@@ -57,7 +57,7 @@ class Decoder():
         copy_path = os.path.join(self.decode_dir, 'output.txt')
         
         os.system("cat {} | sort > {}".format(output_path,copy_path))
-        print("The results of decoding corrsponding to the lowest WER is in: {}".format(copy_path))
+        print("The result file of decoding corrsponding to the lowest WER is in: {}\n".format(copy_path))
 
 
     def transform_likelihood(self, trans_array, likelihood):

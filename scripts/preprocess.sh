@@ -4,7 +4,7 @@
 . ./path.sh
 ##prepare lang
 
-stage=1
+stage=0
 ## Given input
 phone_map_txt=data/phones.60-48-39.map.txt
 phone_list_txt=data/phone_list.txt
