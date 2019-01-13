@@ -139,10 +139,14 @@ if __name__ == '__main__':
     lengths = pkl.load(open('exp/test/timit-train-length.pkl' ,'rb'))
     transcription = pkl.load(open('data/timit-train-phn.pkl' ,'rb')) 
     likelihood = pkl.load(open('exp/test/uns_matched/phn_prob' ,'rb'))
+    exp_dir = 'exp_uns_matched'
+    decode_dir = exp_dir + '/decode'
+    posterior_dir =  exp_dir + 'posterior'
+    graph_dir = 'data/tree_sp0.95/graph_9gram'
     ##
 
     trans_array = get_trans_array('data/phones.60-48-39.map.txt','data/lang/phones.txt')
-    decoder = Decoder('data/tree_sp0.95/graph_9gram', 'exp/test/posterior', 'test')
+    decoder = Decoder(graph_dir, posterior_dir, decode_dir)
     
     likelihood = decoder.transform_likelihood(trans_array, likelihood)
      
