@@ -138,10 +138,10 @@ if __name__ == '__main__':
     ## Modify the path
     lengths = pkl.load(open('exp/test/timit-train-length.pkl' ,'rb'))
     transcription = pkl.load(open('data/timit-train-phn.pkl' ,'rb')) 
-    likelihood = pkl.load(open('exp/test/uns_matched/phn_prob' ,'rb'))
-    exp_dir = 'exp_uns_matched'
+    likelihood = pkl.load(open('exp/orc_nonmatched/phn_prob' ,'rb'))
+    exp_dir = 'exp/orc_nonmatched'
     decode_dir = exp_dir + '/decode'
-    posterior_dir =  exp_dir + 'posterior'
+    posterior_dir =  exp_dir + '/posterior'
     graph_dir = 'data/tree_sp0.95/graph_9gram'
     ##
 
