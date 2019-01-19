@@ -5,7 +5,7 @@ This is a WFST decoder for phoneme posterior built on kaldi. The WFST is compose
 
 **H** is an 2 state HMM with probability of 0.95 for self-loop and probabilty of 0.05 to transit to final state.
 
-**C** is an one-to-one mapping function of phoneme, which is built from a full-unigramm tree.
+**C** is an one-to-one mapping function of phoneme, which is built from a full-unigram tree.
 
 **L** is an one-to-one mapping of all phoneme.
 
