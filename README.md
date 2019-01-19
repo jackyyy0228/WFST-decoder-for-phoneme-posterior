@@ -1,4 +1,4 @@
-# WFST_decoder_for_phone_posterior
+# WFST decoder for phoneme posterior
 
 This is a WFST decoder for phoneme posterior built on kaldi. The WFST is composed of HCLG.
 
