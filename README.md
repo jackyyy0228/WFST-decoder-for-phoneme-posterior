@@ -44,6 +44,14 @@ $ bash scripts/preprocess.sh --self_loop_prob 0.95 --n_gram 9
 $  python scripts/decode.py 
 ```
 
+### Alignment
+
+- Get phoneme alignment from lattices in decoding directory.
+
+```
+$  bash scripts/lat_lat_to_phones.sh $decode_dir
+```
+
 
 
 
