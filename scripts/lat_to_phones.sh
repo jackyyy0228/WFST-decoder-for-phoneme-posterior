@@ -21,3 +21,6 @@ lattice-scale --inv-acoustic-scale=$lmwt "ark:gunzip -c $decode_dir/lat.*.gz|" a
   lattice-add-penalty --word-ins-penalty=$penalty ark:- ark:- | \
   lattice-best-path --word-symbol-table=$symtab ark:- "ark,t:|utils/int2sym.pl -f 2- $word_symtab | sort > $decode_dir/ali_output.txt" ark:- | \
   ali-to-pdf $mdl ark:- "ark,t:|utils/int2sym.pl -f 2- $pdf_symtab | sort > $decode_dir/phones_ali.txt"
+
+echo "The path of alignment file is $decode_dir/phones_ali.txt."
+echo "Done."
