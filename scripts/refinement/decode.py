@@ -1,14 +1,12 @@
 import numpy as np
+import argparse
+import os,sys
+sys.path.append('scripts/')
 import ark
 import utils 
 import shutil
-import argparse
-import os,sys
-import utils 
 
-EPS = 0.00000001
-penalty=1.0
-lmwt=20
+EPS = 0.000000001
 
 class Decoder():
     def __init__(self, graph_dir, posterior_dir, decode_dir, nj = 50):
@@ -58,14 +56,15 @@ class Decoder():
         os.system('%s/scripts/decode.sh --cmd run.pl --skip_scoring %s --nj %s %s %s %s | tee %s/decode.log || exit 1;' % ( os.getcwd(), scoring_cmd, self.nj, self.graph_dir, self.posterior_dir, self.decode_dir, self.decode_dir))
         
         # Get best WER and print it
+        wer = os.popen('grep WER %s/wer_* | utils/best_wer.sh' % self.decode_dir).read()
+        print(wer)
         
-        wer = os.popen('grep WER {}/wer_{}_{}'.format(self.decode_dir,lmwt,penalty)).read()
-
+        _,lmwt,penalty = wer[wer.find('wer'):].rstrip().split('_')
         output_path = os.path.join(self.decode_dir,'scoring_kaldi/penalty_{}/{}.txt'.format(penalty,lmwt))
         copy_path = os.path.join(self.decode_dir, 'output.txt')
         
         os.system("cat {} | sort > {}".format(output_path,copy_path))
-        print("The file of decoding results is in: {}\n".format(copy_path))
+        print("The result file of decoding corrsponding to the lowest WER is in: {}\n".format(copy_path))
 
 
     def transform_likelihood(self, trans_array, likelihood):
@@ -107,6 +106,19 @@ class Decoder():
         for _ in range(n_digits - len(str_idx)):
             str_idx = '0' + str_idx
         return str_idx
+    def transform_biphone(self, likelihood, to_keep_prob):
+        #
+        N, L, P = likelihood.shape
+        output = np.zeros((N,L,P*P+2))
+        to_keep_prob = to_keep_prob[:,:L]
+        for n in range(N):
+            print(n)
+            for l in range(L):
+                vec = np.ones([1,P]) * (to_keep_prob[n][l])
+                output[n,l,2:] = np.dot(likelihood[n,l,:].reshape(P,1),vec).transpose().reshape(-1) / (P-1)
+                for i in range(P):
+                    output[n][l][i * (P+1) + 2] = likelihood[n][l][i] * (1 - to_keep_prob[n][l])
+        return output + EPS
 
 
 def get_trans_array(ori_phone_file, tgt_phone_file):
@@ -144,29 +156,53 @@ if __name__ == '__main__':
     import pickle as pkl
     # Hyperparameters
     nj = 24
+    sigmoid_temperature = 500
     ## Data path
-    prob_type = 'test'
-    lm_type = 'match'
-
+    prob_type = 'train'
+    lm_type = 'nonmatch'
 
     lengths = pkl.load(open('data/timit_new/audio/timit-{}-length.pkl'.format(prob_type) ,'rb'))
     transcription = pkl.load(open('data/timit_new/audio/timit-{}-phn.pkl'.format(prob_type) ,'rb'))
+    gas =  pkl.load(open('data/timit_new/audio/timit-{}-gas.pkl'.format(prob_type) ,'rb'))
     
-    prob_dir = '/groups/public/guanyu/exp_sup'
+    prob_dir = '/groups/public/guanyu/new_ori_nonmatched/'
+    prob_dir = '/groups/public/guanyu/gumbel_ori_nonmatched'
     likelihood = pkl.load(open(os.path.join(prob_dir,'{}.prob').format(prob_type) ,'rb'))
     
     # Experiment dir
-    exp_dir = 'exp/exp_sup_0.8'
-    decode_dir = exp_dir + '/decode_{}'.format(prob_type)
-    graph_dir = 'data/{}/tree_sp0.8/graph_9gram'.format(lm_type)
+    exp_dir = 'exp/gumbel_ori_nonmatched'
+    decode_dir = exp_dir + '/decode_{}_refinement'.format(prob_type)
+    graph_dir = 'data/refinement/{}/tree_sp0.5/graph_9gram'.format(lm_type)
     posterior_dir =  exp_dir + '/posterior'
     
+    #sigmoid_temp = sys.argv[1]
     ##
+    #lengths = pkl.load(open(sys.argv[1] ,'rb'))
+    #transcription = pkl.load(open(sys.argv[2] ,'rb')) 
+    #likelihood = pkl.load(open(sys.argv[3],'rb'))
+    #gas = pkl.load(open(sys.argv[4] ,'rb'))
+    #graph_dir = sys.argv[5]
+    #exp_dir = sys.argv[6]
+    #decode_dir = sys.argv[7]
 
-    trans_array = get_trans_array('data/timit_new/phones/phones.60-48-39.map.txt','data/lang/phones.txt')
     decoder = Decoder(graph_dir, posterior_dir, decode_dir, nj = nj)
+    prob = utils.to_keep_prob(gas,lengths, sigmoid_temperature, 1, 0)
 
-    likelihood = decoder.transform_likelihood(trans_array, likelihood)
+    likelihood = decoder.transform_biphone(likelihood, prob)
      
     decoder.decode(likelihood, lengths, transcription)
   
+    '''
+    self_p = sys.argv[1]
+    n_gram = sys.argv[2]
+    typ = sys.argv[3]
+
+    likelihood = pkl.load(open('exp/test/{}_matched/phn_prob'.format(typ) ,'rb'))
+    graph_dir = 'data/tree_sp{}/graph_{}gram'.format(self_p,n_gram)
+    decode_dir = 'exp/test/{}_decode_{}gram_sp{}'.format(typ,n_gram,self_p)
+    decoder = Decoder(graph_dir, 'exp/test/posterior', decode_dir)
+    
+    likelihood = decoder.transform_likelihood(trans_array, likelihood)
+     
+    decoder.decode(likelihood, lengths, transcription)
+    '''

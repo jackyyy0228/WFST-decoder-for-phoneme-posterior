@@ -151,7 +151,7 @@ if ! [ $(head -c 67 $dir/HCLG.fst | wc -c) -eq 67 ]; then
 fi
 
 # save space.
-rm $dir/HCLGa.fst $dir/Ha.fst 2>/dev/null || true
+#rm $dir/HCLGa.fst $dir/Ha.fst 2>/dev/null || true
 
 # keep a copy of the lexicon and a list of silence phones with HCLG...
 # this means we can decode without reference to the $lang directory.

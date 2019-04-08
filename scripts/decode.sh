@@ -68,10 +68,10 @@ fi
 
 if [ $stage -le 2 ]; then
   if ! $skip_scoring ; then
-    [ ! -x steps/scoring/score_kaldi_wer.sh ] && \
-      echo "Not scoring because local/score.sh does not exist or not executable." && exit 1;
+    [ ! -x scripts/score.sh ] && \
+      echo "Not scoring because scripts/score.sh does not exist or not executable." && exit 1;
     echo "score best paths"
-    steps/scoring/score_kaldi_wer.sh $scoring_opts --cmd "$cmd" $data $graphdir $dir
+    scripts/score.sh $scoring_opts --cmd "$cmd" $data $graphdir $dir
     echo "score confidence and timing with sclite"
   fi
 fi

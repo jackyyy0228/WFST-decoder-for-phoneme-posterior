@@ -22,8 +22,8 @@ limitations under the License.
 import struct
 import numpy as np
 
-np.set_printoptions(threshold=np.nan)
-np.set_printoptions(linewidth=np.nan)
+np.set_printoptions(threshold=999999999)
+np.set_printoptions(linewidth=999999999)
 
 class ArkReader(object):
     '''
