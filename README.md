@@ -61,7 +61,7 @@ $  bash scripts/lat_lat_to_phones.sh $decode_dir
 
 ### Joint decode with segmentation probabilities
 
--  Consider segmentation probabillity in WFST decoding, e.g. consider GAS probability in [1].
+-  Consider segmentation probabillity in WFST decoding, e.g. GAS probability in [1].
 
 ```
 $  bash scripts/refinement/preprocess.sh --self_loop_prob 0.95 --n_gram 9
