@@ -1,7 +1,14 @@
 # WFST decoder for phoneme posterior
 
-This is a WFST decoder for phoneme posterior built on kaldi. The WFST is composed of HCLG.
+This is a WFST decoder for phoneme posterior built on kaldi.
 
+Feel free to use/modify them, any bug report or improvement suggestion will be appreciated. 
+
+<!--If you find this project helpful for your research, please do consider to cite our paper, thanks! -->
+
+##  Composition of WFST
+
+The WFST is composed of HCLG. 
 
 **H** is an 2 state HMM with probability of 0.95 for self-loop and probabilty of 0.05 to transit to final state.
 
@@ -52,6 +59,19 @@ $  python scripts/decode.py
 $  bash scripts/lat_lat_to_phones.sh $decode_dir
 ```
 
+### Joint decode with segmentation probabilities
+
+-  Consider segmentation probabillity in WFST decoding, e.g. consider GAS probability in [1].
+
+```
+$  bash scripts/refinement/preprocess.sh --self_loop_prob 0.95 --n_gram 9
+$  python scripts/refinement/decode.py 
+```
+
+## Reference
+1.Unsupervised Speech Recognition via Segmental Empirical Output Distribution Matching. (https://arxiv.org/abs/1812.09323), Chih-Kuan Yeh*et al.*
+
+2.Completely Unsupervised Phoneme Recognition By A Generative AdversarialNetwork Harmonized With Iteratively Refined Hidden Markov Models,  Kuan-Yu Chen, Che-Ping Tsai *et.al.*
 
 
 
