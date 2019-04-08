@@ -69,9 +69,12 @@ $  python scripts/refinement/decode.py
 ```
 
 ## Reference
+
 1.[Unsupervised Speech Recognition via Segmental Empirical Output Distribution Matching.](https://arxiv.org/abs/1812.09323), Chih-Kuan Yeh*et al.*
 
 2.Completely Unsupervised Phoneme Recognition By A Generative AdversarialNetwork Harmonized With Iteratively Refined Hidden Markov Models,  Kuan-Yu Chen, Che-Ping Tsai *et.al.*
 
+## Useful Links
 
+1.  The training scripts for [Unsupervised HMM](https://github.com/jackyyy0228/Unsupervised_HMM) <sup>[2](#Reference)</sup>
 
