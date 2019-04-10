@@ -72,7 +72,7 @@ $  python scripts/refinement/decode.py
 
 1.[Unsupervised Speech Recognition via Segmental Empirical Output Distribution Matching.](https://arxiv.org/abs/1812.09323), Chih-Kuan Yeh*et al.*
 
-2.Completely Unsupervised Phoneme Recognition By A Generative AdversarialNetwork Harmonized With Iteratively Refined Hidden Markov Models,  Kuan-Yu Chen, Che-Ping Tsai *et.al.*
+2.[Completely Unsupervised Phoneme Recognition By A Generative AdversarialNetwork Harmonized With Iteratively Refined Hidden Markov Models](https://arxiv.org/abs/1904.04100?fbclid=IwAR3QG6ihbKmLz-e4BdOkRG3AaelP5HGkzLkavzRSF6IORN90BkHX1NLkpRo),  Kuan-Yu Chen, Che-Ping Tsai *et.al.*
 
 ## Useful Links
 
