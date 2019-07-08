@@ -22,9 +22,9 @@ The WFST is composed of HCLG.
 
 ### Dependencies
 
--kaldi 
+- kaldi 
 
--srilm (can be built with kaldi/tools/install_srilm.sh)
+- srilm (can be built with kaldi/tools/install_srilm.sh)
 
 ### Path
 
